@@ -3,7 +3,7 @@
 Code base for our minor project.
 
 ### Authors
-- Amit Chaudhary
-- Ashish Ghimire
-- Ashwin Neupane
-- Kiran Koirala
+- [Amit Chaudhary](https://github.com/studenton)
+- [Ashish Ghimire](https://github.com/deashish)
+- [Ashwin Neupane](https://github.com/ashwin101)
+- [Kiran Koirala](https://github.com/koiralakiran1)
