@@ -12,7 +12,7 @@ Based off of the [workflow proposed by Vincent Driessen](http://nvie.com/posts/a
 
 Our workflow begins with deploying supporting branches off of `dev` for work, which may include branches for "hotfixes" (i.e. urgent bug fixing) or new features. 
 
-###Feature Branches
+### Feature Branches
 When new feature development begins, create a branch off of `dev`:
 
     git checkout -b adding-new-feature dev
@@ -40,7 +40,7 @@ When `dev` is ready to be merged into `master`, it can be merged either via a pu
     git push origin master
     git checkout dev
 
-###Hotfix Branches
+### Hotfix Branches
 If a critical bug in production needs to be addressed, create a branch off of `master` prefixed with `hotfix-`:
   
     git pull origin master
