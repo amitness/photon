@@ -19,7 +19,7 @@ Code base for our minor project.
   Java HotSpot(TM) 64-Bit Server VM (build 25.31-b07, mixed mode)
   ```
 
-- Download Android Studio from: [https://developer.android.com/studio/index.html](https://developer.android.com/studio/index.html).
+- Download [Android Studio](https://developer.android.com/studio/index.html).
 
 - Extract the zip.
 
