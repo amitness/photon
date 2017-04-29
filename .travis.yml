@@ -15,6 +15,7 @@ android:
                 - android-25
                 - extra-google-m2repository
 script:
+        - ./gradlew test
         - ./gradlew build
 before_install:
         - chmod +x gradlew
