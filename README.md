@@ -1,4 +1,4 @@
-# Minor Project [![Build Status](https://travis-ci.org/studenton/minor-project.svg?branch=master)](https://travis-ci.org/studenton/minor-project)
+# Minor Project [![Build Status](https://travis-ci.org/amitness/minor-project.svg?branch=master)](https://travis-ci.org/amitness/minor-project)
 
 Code base for our minor project.
 
