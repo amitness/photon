@@ -25,4 +25,5 @@ before_install:
 branches:
         only:
                 - master
+                - dev
 sudo: required
