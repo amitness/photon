@@ -38,7 +38,11 @@ Code base for our minor project.
   ```
 - In Android studio, select `Open Existing Project` and point to the location where you cloned the repo.
 
-- The build should start.
+- The build should start. 
+
+### Testing
+- Builds are automatically tested through continuous integration using Travis. 
+- Automated tests such as unit tests and instrumentation tests are run on each build.
 
 ### Authors
 - [Amit Chaudhary](https://github.com/studenton) | [Ashish Ghimire](https://github.com/deashish) | [Ashwin Neupane](https://github.com/ashwin101) | [Kiran Koirala](https://github.com/koiralakiran1)
