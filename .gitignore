@@ -39,5 +39,5 @@ captures/
 # Keystore files
 *.jks
 
-#Disable idea file
+# Disable idea file
 .idea/
