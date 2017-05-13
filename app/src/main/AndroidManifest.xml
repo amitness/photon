@@ -18,10 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReceiveActivity" />
         <activity android:name=".TransmitActivity" />
-        <activity android:name=".About"
-            android:label="@string/about"/>
+        <activity
+            android:name=".About"
+            android:label="@string/about" />
+        <activity android:name=".ReceiveActivity"></activity>
     </application>
 
 </manifest>
