@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Photon</string>
     <string name="about">About</string>
+    <string name="receive">Receive</string>
+    <string name="transmit">Transmit</string>
 </resources>
