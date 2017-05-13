@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Photon</string>
     <string name="about">About</string>
-    <string name="receive">Receive</string>
-    <string name="transmit">Transmit</string>
-    <string name="send">Send</string>
+    <string name="button_receive">Receive</string>
+    <string name="button_transmit">Transmit</string>
+    <string name="button_send">Send</string>
 </resources>
