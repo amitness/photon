@@ -1,5 +1,6 @@
 package com.amitness.photon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -23,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.id_about) {
-            //TODO: Write intent to another activity
+            //Intent to another activity
+            Intent intentabout=new Intent(MainActivity.this,About.class);
+            startActivity(intentabout);
             return true;
         }
         return true;

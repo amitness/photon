@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".ReceiveActivity" />
         <activity android:name=".TransmitActivity" />
+        <activity android:name=".About"
+            android:label="@string/about"/>
     </application>
 
 </manifest>
