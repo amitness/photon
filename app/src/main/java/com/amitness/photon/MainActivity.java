@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.id_about) {
-            //TODO: Write intent to another activity
+            //Intent to another activity
+            Intent intentabout=new Intent(MainActivity.this,About.class);
+            startActivity(intentabout);
             return true;
         }
         return true;
