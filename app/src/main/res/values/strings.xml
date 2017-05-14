@@ -5,12 +5,12 @@
     <string name="button_transmit">Transmit</string>
     <string name="button_send">Transfer</string>
     <string name="button_start">Start</string>
-    <string name="help">Help</string>
-    <string name="about_app">Use your android phone Flashlight to transfer simple data.</string>
+    <string name="help">How to use</string>
+    <string name="about_app">Use Flashlight to transfer data.</string>
     <string name="help_content" />
-    <string name="authors">Authors</string>
-    <string name="authors_content">
-
+    <string name="contact">Contact</string>
+    <string name="contact_content">
+    Create an issue for feature requests.\nhttps://github.com/amitness/minor-project
     </string>
     <string name="enter_text">Enter text</string>
 </resources>
