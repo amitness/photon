@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.amitness.photon.utils.FlashLight;
 
@@ -68,7 +69,9 @@ public class TransmitActivity extends AppCompatActivity {
     @SuppressWarnings("deprecation")
     public void startTransmission(View view) {
         Log.d("SendButton", "User clicked the button.");
-
+        EditText edit = (EditText)findViewById(R.id.user_message);
+        String userMessage = edit.getText().toString();
+        Log.d("User entered:", userMessage);
         new Thread() {
             public void run() {
                 transmitData();
@@ -85,7 +88,7 @@ public class TransmitActivity extends AppCompatActivity {
         HashMap<String, String> morseCode = new HashMap<>();
         morseCode.put("A", ".-");
         String code = morseCode.get("A");
-        String message = "01001001";
+        String message = "101";
         try {
             for(char bit: message.toCharArray()) {
                 if(bit == '1') {
