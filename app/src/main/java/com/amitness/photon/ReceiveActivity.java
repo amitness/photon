@@ -1,37 +1,78 @@
 package com.amitness.photon;
 
-import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class ReceiveActivity extends AppCompatActivity {
+
+    private TextView mTextViewLightLabel;
+    private SensorManager mSensorManager;
+    private SensorEventListener mEventListenerLight;
+    private float lastLightValue;
+    private float bgValue = -1;
+
+    private void updateUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                char bit;
+                if(bgValue == -1){
+                    bgValue = lastLightValue;
+                    Log.d("Background Intensity", String.valueOf(bgValue));
+                }
+                if(lastLightValue > bgValue) {
+                    bit = '1';
+                }
+                else {
+                    bit = '0';
+                }
+                mTextViewLightLabel.append(""+bit);
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive);
+
+        mTextViewLightLabel = (TextView) findViewById(R.id.sensorValue);
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        mEventListenerLight = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                float[] values =event.values;
+
+                lastLightValue = values[0];
+                Log.d("Sensor Value", String.valueOf(lastLightValue));
+                updateUI();
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.id_about) {
-            //Intent to another activity
-            Intent intentAbout=new Intent(ReceiveActivity.this,AboutActivity.class);
-            startActivity(intentAbout);
-            return true;
-        }
-        return true;
+    public void onStop() {
+        mSensorManager.unregisterListener(mEventListenerLight);
+        super.onStop();
     }
 
     public void notifyStart(View v) {

@@ -7,20 +7,31 @@
     tools:context="com.amitness.photon.ReceiveActivity">
 
     <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/sensorValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="72dp"
+            tools:layout_editor_absoluteY="147dp" />
+
+        <Button
+            android:id="@+id/buttonStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:id="@+id/buttonStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="notifyStart"
-                android:text="@string/button_start" />
-        </RelativeLayout>
-
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="notifyStart"
+            android:text="@string/button_start" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
