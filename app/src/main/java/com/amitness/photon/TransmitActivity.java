@@ -1,8 +1,6 @@
 package com.amitness.photon;
 
 import android.content.Intent;
-import android.graphics.SurfaceTexture;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,7 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.io.IOException;
+import com.amitness.photon.utils.FlashLight;
+
+import java.util.HashMap;
 
 import static java.lang.Thread.sleep;
 
@@ -53,36 +53,29 @@ public class TransmitActivity extends AppCompatActivity {
 
     }
 
-    @SuppressWarnings("deprecation")
     private void transmitData() {
-        int milliSecond = 2000;
-        Camera camera;
-        try {
-            camera = Camera.open();
-        } catch (RuntimeException e) {
-            return;
-        }
+        int frequency  = 1; // bps
+        int milliSecond = 1000 / frequency;
+        FlashLight led = new FlashLight();
 
-        SurfaceTexture st = new SurfaceTexture(0);
+        HashMap<String, String> morseCode = new HashMap<String, String>();
+        morseCode.put("A", ".-");
+        String code = morseCode.get("A");
 
+        String message = "01001001";
         try {
-            camera.setPreviewTexture(st);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Camera.Parameters p = camera.getParameters();
-            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-            camera.setParameters(p);
-            camera.startPreview();
-            Log.d("Camera", "Turned ON");
-            sleep(milliSecond);
-            p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-            camera.setParameters(p);
-            camera.stopPreview();
-            Log.d("Camera", "Turned OFF");
-            camera.release();
+            for(char bit: message.toCharArray()) {
+                if(bit == '1') {
+                    led.turnOn();
+                    Log.d("Camera", "Turned ON");
+                } else {
+                    led.turnOff();
+                    Log.d("Camera", "Turned OFF");
+                }
+                sleep(milliSecond);
+            }
+            led.release();
+            Log.d("Camera", "Released Sensor");
         } catch (InterruptedException e) {
             String TAG = "Flash";
             Log.w(TAG, "InterruptedException");
