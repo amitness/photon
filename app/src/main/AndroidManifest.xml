@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.amitness.photon">
+    <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="20"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
     <application
         android:allowBackup="false"
@@ -18,8 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReceiveActivity" />
         <activity android:name=".TransmitActivity" />
+        <activity android:name=".AboutActivity"
+            android:label="@string/about"/>
+        <activity android:name=".ReceiveActivity"></activity>
     </application>
 
 </manifest>

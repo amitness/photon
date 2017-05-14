@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Photon</string>
+    <string name="about">About</string>
+    <string name="button_receive">Receive</string>
+    <string name="button_transmit">Transmit</string>
+    <string name="button_send">Transfer</string>
+    <string name="button_start">Start</string>
 </resources>
