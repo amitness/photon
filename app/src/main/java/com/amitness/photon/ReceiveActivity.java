@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class ReceiveActivity extends AppCompatActivity {
 
     private TextView mTextViewLightLabel;
@@ -17,6 +19,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private SensorEventListener mEventListenerLight;
     private float lastLightValue;
     private float bgValue = -1;
+    private ArrayList<Float> values = new ArrayList<Float>();
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
@@ -49,9 +52,8 @@ public class ReceiveActivity extends AppCompatActivity {
         mEventListenerLight = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
-                float[] values =event.values;
-
-                lastLightValue = values[0];
+                lastLightValue = event.values[0];
+                values.add(lastLightValue);
                 Log.d("Sensor Value", String.valueOf(lastLightValue));
                 updateUI();
             }
@@ -71,6 +73,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
     @Override
     public void onStop() {
+        Log.d("Read all values:", String.valueOf(values));
         mSensorManager.unregisterListener(mEventListenerLight);
         super.onStop();
     }
