@@ -58,10 +58,10 @@ public class TransmitActivity extends AppCompatActivity {
         int milliSecond = 1000 / frequency;
         FlashLight led = new FlashLight();
 
-        HashMap<String, String> morseCode = new HashMap<String, String>();
+        HashMap<String, String> morseCode = new HashMap<>();
         morseCode.put("A", ".-");
         String code = morseCode.get("A");
-
+        Log.D()
         String message = "01001001";
         try {
             for(char bit: message.toCharArray()) {
