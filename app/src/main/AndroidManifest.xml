@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.amitness.photon">
-    <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="20"/>
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="20"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
