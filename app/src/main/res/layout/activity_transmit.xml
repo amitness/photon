@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     tools:context="com.amitness.photon.TransmitActivity">
 
+    <EditText
+        android:id="@+id/user_message"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginStart="6dp"
+        android:ellipsize="start"
+        android:gravity="center_horizontal"
+        android:hint="@string/enter_text"
+        android:inputType="text"
+        android:selectAllOnFocus="false"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
