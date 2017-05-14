@@ -25,7 +25,7 @@
         <activity android:name=".TransmitActivity" />
         <activity android:name=".AboutActivity"
             android:label="@string/about"/>
-        <activity android:name=".ReceiveActivity"></activity>
+        <activity android:name=".ReceiveActivity" />
     </application>
 
 </manifest>
