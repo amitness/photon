@@ -12,5 +12,5 @@
     <string name="contact_content">
     Create an issue for feature requests.\nhttps://github.com/amitness/minor-project
     </string>
-    <string name="enter_text">Enter text</string>
+    <string name="enter_text">Message</string>
 </resources>
