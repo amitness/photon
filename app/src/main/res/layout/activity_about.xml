@@ -31,7 +31,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1.5"
                 android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
                 android:id="@+id/textView8"
@@ -49,7 +49,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1.5"
                 android:text="@string/help"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
                 android:id="@+id/textView10"
@@ -66,8 +66,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1.5"
                 android:text="@string/contact"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
                 android:id="@+id/textView12"
