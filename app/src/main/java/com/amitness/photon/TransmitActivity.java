@@ -47,6 +47,18 @@ public class TransmitActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void showEmptyMessageAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle("Blank Message!")
+                .setMessage("Please enter some text to send.")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -74,13 +86,14 @@ public class TransmitActivity extends AppCompatActivity {
         Log.d("User entered:", userMessage);
         if(userMessage.isEmpty()) {
             Log.d("Transmitter", "User message is empty");
+            showEmptyMessageAlert();
+        } else {
+            new Thread() {
+                public void run() {
+                    transmitData();
+                }
+            }.start();
         }
-        new Thread() {
-            public void run() {
-                transmitData();
-            }
-        }.start();
-
     }
 
     private void transmitData() {
