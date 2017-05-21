@@ -72,6 +72,9 @@ public class TransmitActivity extends AppCompatActivity {
         EditText edit = (EditText)findViewById(R.id.user_message);
         String userMessage = edit.getText().toString();
         Log.d("User entered:", userMessage);
+        if(userMessage.isEmpty()) {
+            Log.d("Transmitter", "User message is empty");
+        }
         new Thread() {
             public void run() {
                 transmitData();
