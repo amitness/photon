@@ -19,7 +19,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private SensorEventListener mEventListenerLight;
     private float lastLightValue;
     private float bgValue = -1;
-    private ArrayList<Float> values = new ArrayList<Float>();
+    private ArrayList<Float> values = new ArrayList<>();
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
