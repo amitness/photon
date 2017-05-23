@@ -13,4 +13,5 @@
     Create an issue for feature requests.\nhttps://github.com/amitness/minor-project
     </string>
     <string name="enter_text">Message</string>
+    <string name="splash_description">Splash Screen</string>
 </resources>
