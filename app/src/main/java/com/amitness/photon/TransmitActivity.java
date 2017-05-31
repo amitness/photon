@@ -109,15 +109,12 @@ public class TransmitActivity extends AppCompatActivity {
             for(char bit: message.toCharArray()) {
                 if(bit == '1') {
                     led.turnOn();
-                    Log.d("Camera", "Turned ON");
                 } else {
                     led.turnOff();
-                    Log.d("Camera", "Turned OFF");
                 }
                 sleep(milliSecond);
             }
             led.release();
-            Log.d("Camera", "Released Sensor");
         } catch (InterruptedException e) {
             String TAG = "Flash";
             Log.w(TAG, "InterruptedException");
