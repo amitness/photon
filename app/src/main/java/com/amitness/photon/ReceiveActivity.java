@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class ReceiveActivity extends AppCompatActivity {
 
@@ -20,6 +21,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private float lastLightValue;
     private float bgValue = -1;
     private ArrayList<Float> values = new ArrayList<>();
+    private TreeMap<Long, Float> records;
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
@@ -46,6 +48,8 @@ public class ReceiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive);
 
+        records = new TreeMap<Long, Float>();
+
         mTextViewLightLabel = (TextView) findViewById(R.id.sensorValue);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -54,6 +58,7 @@ public class ReceiveActivity extends AppCompatActivity {
             public void onSensorChanged(SensorEvent event) {
                 lastLightValue = event.values[0];
                 long timestamp = event.timestamp;
+                records.put(timestamp, lastLightValue);
                 Log.d("Time Stamp:", String.valueOf(timestamp));
                 values.add(lastLightValue);
                 Log.d("Sensor Value", String.valueOf(lastLightValue));
@@ -76,6 +81,7 @@ public class ReceiveActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         Log.d("Read all values:", String.valueOf(values));
+        Log.d("Read all values:", String.valueOf(records));
         mSensorManager.unregisterListener(mEventListenerLight);
         super.onStop();
     }
