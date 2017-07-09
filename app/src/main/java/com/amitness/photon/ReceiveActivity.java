@@ -22,6 +22,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private float bgValue = -1;
     private ArrayList<Float> values = new ArrayList<>();
     private TreeMap<Long, Float> records;
+    private long startTime;
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
@@ -56,9 +57,14 @@ public class ReceiveActivity extends AppCompatActivity {
         mEventListenerLight = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
+                if(bgValue == -1){
+                  //startTime = System.currentTimeMillis();
+                    startTime = event.timestamp;
+                    Log.d("Start timestamp: ", String.valueOf(startTime));
+                }
                 lastLightValue = event.values[0];
                 long timestamp = event.timestamp;
-                records.put(timestamp, lastLightValue);
+                records.put(timestamp - startTime, lastLightValue);
                 Log.d("Time Stamp:", String.valueOf(timestamp));
                 values.add(lastLightValue);
                 Log.d("Sensor Value", String.valueOf(lastLightValue));
