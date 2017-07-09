@@ -53,6 +53,8 @@ public class ReceiveActivity extends AppCompatActivity {
             @Override
             public void onSensorChanged(SensorEvent event) {
                 lastLightValue = event.values[0];
+                long timestamp = event.timestamp;
+                Log.d("Time Stamp:", String.valueOf(timestamp));
                 values.add(lastLightValue);
                 Log.d("Sensor Value", String.valueOf(lastLightValue));
                 updateUI();
