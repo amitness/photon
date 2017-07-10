@@ -23,6 +23,8 @@ public class ReceiveActivity extends AppCompatActivity {
     private ArrayList<Float> values = new ArrayList<>();
     private TreeMap<Long, Float> records;
     private long startTime;
+    private long referenceTime;
+    private long lastTime;
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
@@ -59,12 +61,24 @@ public class ReceiveActivity extends AppCompatActivity {
             public void onSensorChanged(SensorEvent event) {
                 if(bgValue == -1){
                   //startTime = System.currentTimeMillis();
-                    startTime = event.timestamp;
+                    //startTime = event.timestamp;
+                    startTime = System.currentTimeMillis();
+                    lastTime = System.currentTimeMillis();
+                    referenceTime = System.currentTimeMillis();
                     Log.d("Start timestamp: ", String.valueOf(startTime));
+                    Log.d("Start timestamp: ", String.valueOf(referenceTime));
+                    records.put(0L, event.values[0]);
                 }
                 lastLightValue = event.values[0];
-                long timestamp = event.timestamp;
-                records.put(timestamp - startTime, lastLightValue);
+                //long timestamp = event.timestamp;
+                long timestamp = System.currentTimeMillis();
+                if((timestamp - lastTime) > 999) {
+                    Log.d("1 second.", "passed.");
+                    lastTime = timestamp;
+                    records.put(timestamp - startTime, lastLightValue);
+                }
+                //records.put( referenceTime + Math.round((timestamp - startTime) / 1000000.0), lastLightValue);
+                //records.put(timestamp - startTime, lastLightValue);
                 Log.d("Time Stamp:", String.valueOf(timestamp));
                 values.add(lastLightValue);
                 Log.d("Sensor Value", String.valueOf(lastLightValue));
@@ -82,6 +96,7 @@ public class ReceiveActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),SensorManager.SENSOR_DELAY_NORMAL);
+        //mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), 1000000000);
     }
 
     @Override
