@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class ReceiveActivity extends AppCompatActivity {
 
@@ -20,22 +21,16 @@ public class ReceiveActivity extends AppCompatActivity {
     private float lastLightValue;
     private float bgValue = -1;
     private ArrayList<Float> values = new ArrayList<>();
+    private TreeMap<Long, Float> records;
+    private long startTime;
+    private long referenceTime;
+    private long lastTime;
+    private char bit;
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                char bit;
-                if(bgValue == -1){
-                    bgValue = lastLightValue;
-                    Log.d("Background Intensity", String.valueOf(bgValue));
-                }
-                if(lastLightValue > bgValue) {
-                    bit = '1';
-                }
-                else {
-                    bit = '0';
-                }
                 mTextViewLightLabel.append(""+bit);
             }
         });
@@ -46,13 +41,46 @@ public class ReceiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive);
 
+        records = new TreeMap<Long, Float>();
+
         mTextViewLightLabel = (TextView) findViewById(R.id.sensorValue);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         mEventListenerLight = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
+
+                if(bgValue == -1){
+                  //startTime = System.currentTimeMillis();
+                    //startTime = event.timestamp;
+                    startTime = System.currentTimeMillis();
+                    lastTime = System.currentTimeMillis();
+                    referenceTime = System.currentTimeMillis();
+                    Log.d("Start timestamp: ", String.valueOf(startTime));
+                    Log.d("Start timestamp: ", String.valueOf(referenceTime));
+                    bgValue = event.values[0];
+                    records.put(0L, bgValue);
+                    Log.d("Background Intensity: ", String.valueOf(bgValue));
+                }
                 lastLightValue = event.values[0];
+                //long timestamp = event.timestamp;
+                long timestamp = System.currentTimeMillis();
+                if((timestamp - lastTime) > 999) {
+                    Log.d("1 second.", "passed.");
+                    lastTime = timestamp;
+                    records.put(timestamp - startTime, lastLightValue);
+                }
+
+
+                if(lastLightValue > bgValue) {
+                    bit = '1';
+                }
+                else {
+                    bit = '0';
+                }
+                //records.put( referenceTime + Math.round((timestamp - startTime) / 1000000.0), lastLightValue);
+                //records.put(timestamp - startTime, lastLightValue);
+                Log.d("Time Stamp:", String.valueOf(timestamp));
                 values.add(lastLightValue);
                 Log.d("Sensor Value", String.valueOf(lastLightValue));
                 updateUI();
@@ -69,11 +97,13 @@ public class ReceiveActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),SensorManager.SENSOR_DELAY_NORMAL);
+        //mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), 1000000000);
     }
 
     @Override
     public void onStop() {
         Log.d("Read all values:", String.valueOf(values));
+        Log.d("Read all values:", String.valueOf(records));
         mSensorManager.unregisterListener(mEventListenerLight);
         super.onStop();
     }
