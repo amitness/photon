@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.amitness.photon.utils.FlashLight;
 
@@ -19,6 +22,10 @@ import java.util.HashMap;
 import static java.lang.Thread.sleep;
 
 public class TransmitActivity extends AppCompatActivity {
+    private ProgressBar progressBar;
+    private TextView textView;
+    private int progressStatus  = 0;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,10 @@ public class TransmitActivity extends AppCompatActivity {
 
     @SuppressWarnings("deprecation")
     public void startTransmission(View view) {
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        textView = (TextView) findViewById(R.id.textview);
+
+
         Log.d("SendButton", "User clicked the button.");
         EditText edit = (EditText)findViewById(R.id.user_message);
         String userMessage = edit.getText().toString();
@@ -88,11 +99,43 @@ public class TransmitActivity extends AppCompatActivity {
             Log.d("Transmitter", "User message is empty");
             showEmptyMessageAlert();
         } else {
-            new Thread() {
+//            new Thread() {
+//                public void run() {
+//                    transmitData();
+//                }
+//            }.start();
+
+            new Thread(new Runnable() {
+                @Override
                 public void run() {
-                    transmitData();
+                    showProgress();
                 }
-            }.start();
+            }).start();
+        }
+    }
+
+    private void showProgress() {
+        String bit = "10101";
+        int bitLength = bit.length();
+        while(progressStatus < 100) {
+            progressStatus += 1;
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setProgress(progressStatus);
+                    if (progressStatus < 100) {
+                        textView.setText("Progress: " + progressStatus + "/" + progressBar.getMax());
+                    } else {
+                        textView.setText("Transmission Completed.");
+                    }
+                }
+            });
+            try{
+                Thread.sleep(10 * bitLength);
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -104,7 +147,7 @@ public class TransmitActivity extends AppCompatActivity {
         HashMap<String, String> morseCode = new HashMap<>();
         morseCode.put("A", ".-");
         String code = morseCode.get("A");
-        String message = "101";
+        String message = "10101";
         try {
             for(char bit: message.toCharArray()) {
                 if(bit == '1') {

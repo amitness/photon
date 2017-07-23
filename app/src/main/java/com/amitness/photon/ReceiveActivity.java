@@ -25,22 +25,12 @@ public class ReceiveActivity extends AppCompatActivity {
     private long startTime;
     private long referenceTime;
     private long lastTime;
+    private char bit;
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                char bit;
-                if(bgValue == -1){
-                    bgValue = lastLightValue;
-                    Log.d("Background Intensity", String.valueOf(bgValue));
-                }
-                if(lastLightValue > bgValue) {
-                    bit = '1';
-                }
-                else {
-                    bit = '0';
-                }
                 mTextViewLightLabel.append(""+bit);
             }
         });
@@ -59,6 +49,7 @@ public class ReceiveActivity extends AppCompatActivity {
         mEventListenerLight = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
+
                 if(bgValue == -1){
                   //startTime = System.currentTimeMillis();
                     //startTime = event.timestamp;
@@ -67,7 +58,9 @@ public class ReceiveActivity extends AppCompatActivity {
                     referenceTime = System.currentTimeMillis();
                     Log.d("Start timestamp: ", String.valueOf(startTime));
                     Log.d("Start timestamp: ", String.valueOf(referenceTime));
-                    records.put(0L, event.values[0]);
+                    bgValue = event.values[0];
+                    records.put(0L, bgValue);
+                    Log.d("Background Intensity: ", String.valueOf(bgValue));
                 }
                 lastLightValue = event.values[0];
                 //long timestamp = event.timestamp;
@@ -76,6 +69,14 @@ public class ReceiveActivity extends AppCompatActivity {
                     Log.d("1 second.", "passed.");
                     lastTime = timestamp;
                     records.put(timestamp - startTime, lastLightValue);
+                }
+
+
+                if(lastLightValue > bgValue) {
+                    bit = '1';
+                }
+                else {
+                    bit = '0';
                 }
                 //records.put( referenceTime + Math.round((timestamp - startTime) / 1000000.0), lastLightValue);
                 //records.put(timestamp - startTime, lastLightValue);
