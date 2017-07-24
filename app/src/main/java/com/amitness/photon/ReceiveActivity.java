@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.amitness.photon.utils.BaudotCode;
+
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -18,20 +20,28 @@ public class ReceiveActivity extends AppCompatActivity {
     private TextView mTextViewLightLabel;
     private SensorManager mSensorManager;
     private SensorEventListener mEventListenerLight;
-    private float lastLightValue;
-    private float bgValue = -1;
-    private ArrayList<Float> values = new ArrayList<>();
+    private float currentLightIntensity;
+    private float bgIntensity = -1;
+    private ArrayList<Float> intensityValues = new ArrayList<>();
     private TreeMap<Long, Float> records;
     private long startTime;
-    private long referenceTime;
     private long lastTime;
-    private char bit;
+    private String bit;
+    private String rawReading = "";
+    private boolean started = false;
+    private String lastFiveBits;
+    private String payload = "";
+    private boolean startBitDetected = false;
+    private boolean isTransferring = true;
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mTextViewLightLabel.append(""+bit);
+//                mTextViewLightLabel.append(bit);
+                BaudotCode bc = new BaudotCode();
+                String message = bc.decode(payload);
+                mTextViewLightLabel.setText(message);
             }
         });
     }
@@ -45,45 +55,89 @@ public class ReceiveActivity extends AppCompatActivity {
 
         mTextViewLightLabel = (TextView) findViewById(R.id.sensorValue);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+//        mTextViewLightLabel.setText("Receiving...");
 
         mEventListenerLight = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
 
-                if(bgValue == -1){
-                  //startTime = System.currentTimeMillis();
+                if (bgIntensity == -1) {
+                    //startTime = System.currentTimeMillis();
                     //startTime = event.timestamp;
                     startTime = System.currentTimeMillis();
-                    lastTime = System.currentTimeMillis();
-                    referenceTime = System.currentTimeMillis();
+//                    referenceTime = System.currentTimeMillis();
                     Log.d("Start timestamp: ", String.valueOf(startTime));
-                    Log.d("Start timestamp: ", String.valueOf(referenceTime));
-                    bgValue = event.values[0];
-                    records.put(0L, bgValue);
-                    Log.d("Background Intensity: ", String.valueOf(bgValue));
+//                    Log.d("Start timestamp: ", String.valueOf(referenceTime));
+                    bgIntensity = event.values[0];
+                    records.put(0L, bgIntensity);
+                    Log.d("Background Intensity: ", String.valueOf(bgIntensity));
+//                    rawReading += "0";
                 }
-                lastLightValue = event.values[0];
+
+                Log.d("RawReading:", String.valueOf(rawReading));
+                currentLightIntensity = event.values[0];
+                if (currentLightIntensity > 1000 && !started) {
+                    lastTime = System.currentTimeMillis();
+                    started = true;
+//                    mTextViewLightLabel.setText("1");
+                    rawReading += "1";
+                }
                 //long timestamp = event.timestamp;
-                long timestamp = System.currentTimeMillis();
-                if((timestamp - lastTime) > 999) {
+                if (currentLightIntensity > bgIntensity) {
+                    bit = "1";
+                } else {
+                    bit = "0";
+                }
+                long currentTime = System.currentTimeMillis();
+                if ((currentTime - lastTime) > 999 && started) {
                     Log.d("1 second.", "passed.");
-                    lastTime = timestamp;
-                    records.put(timestamp - startTime, lastLightValue);
+                    lastTime = currentTime;
+                    records.put(currentTime - startTime, currentLightIntensity);
+                    Log.d("Bit:", bit);
+//                    mTextViewLightLabel.setText(bit);
+                    rawReading += bit;
                 }
 
 
-                if(lastLightValue > bgValue) {
-                    bit = '1';
-                }
-                else {
-                    bit = '0';
-                }
                 //records.put( referenceTime + Math.round((timestamp - startTime) / 1000000.0), lastLightValue);
                 //records.put(timestamp - startTime, lastLightValue);
-                Log.d("Time Stamp:", String.valueOf(timestamp));
-                values.add(lastLightValue);
-                Log.d("Sensor Value", String.valueOf(lastLightValue));
-                updateUI();
+//                Log.d("Time Stamp:", String.valueOf(timestamp));
+                intensityValues.add(currentLightIntensity);
+//                Log.d("Sensor Value", String.valueOf(lastLightIntensity));
+
+
+                String startBits = "11111";
+                String stopBits = "00000";
+
+
+                if (rawReading.length() >= 5) {
+                    lastFiveBits = rawReading.substring(rawReading.length() - 5);
+                    if (!startBitDetected) {
+                        if (lastFiveBits.equals(startBits)) {
+                            System.out.println("Start bit detected.");
+                            mTextViewLightLabel.setText("Start bit detected.");
+                            startBitDetected = true;
+                            // received =  "";
+                            // System.exit(0);
+                        }
+                    } else {
+
+                        if (!lastFiveBits.equals(stopBits)) {
+                            payload += lastFiveBits;
+                        } else {
+                            System.out.println("Stop bit detected.");
+                            isTransferring = false;
+//                            mSensorManager.unregisterListener(mEventListenerLight);
+//                            updateUI();
+                            mSensorManager.unregisterListener(mEventListenerLight);
+                            updateUI();
+                        }
+                    }
+                    rawReading = "";
+                }
+                // System.out.println("==>" + received);
+
+//                updateUI();
             }
 
             @Override
@@ -96,15 +150,16 @@ public class ReceiveActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),SensorManager.SENSOR_DELAY_NORMAL);
-        //mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), 1000000000);
+        mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
     public void onStop() {
-        Log.d("Read all values:", String.valueOf(values));
+        Log.d("Read all intensities:", String.valueOf(intensityValues));
         Log.d("Read all values:", String.valueOf(records));
+        Log.d("Read all data:", rawReading);
         mSensorManager.unregisterListener(mEventListenerLight);
+//        updateUI();
         super.onStop();
     }
 

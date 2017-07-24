@@ -15,17 +15,18 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.amitness.photon.utils.BaudotCode;
 import com.amitness.photon.utils.FlashLight;
-
-import java.util.HashMap;
 
 import static java.lang.Thread.sleep;
 
 public class TransmitActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView textView;
-    private int progressStatus  = 0;
+    private int progressStatus = 0;
     private Handler handler = new Handler();
+    private String userMessage;
+    private String bitStream;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +37,12 @@ public class TransmitActivity extends AppCompatActivity {
         // TODO: Exit the app if no flashlight
         boolean hasFlash = this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
         Log.d("Has Flashlight:", Boolean.toString(hasFlash));
-        if(!hasFlash) {
+        if (!hasFlash) {
             showNoFlashLightAlert();
         }
     }
 
-    private void showNoFlashLightAlert(){
+    private void showNoFlashLightAlert() {
         new AlertDialog.Builder(this)
                 .setTitle("No Flashlight!")
                 .setMessage("Flashlight is not available on this device.")
@@ -56,8 +57,8 @@ public class TransmitActivity extends AppCompatActivity {
 
     private void showEmptyMessageAlert() {
         new AlertDialog.Builder(this)
-                .setTitle("Blank Message!")
-                .setMessage("Please enter some text to send.")
+                .setTitle("Empty Message!")
+                .setMessage("Enter some text.")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -75,9 +76,9 @@ public class TransmitActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.id_about) {
+        if (id == R.id.id_about) {
             //Intent to another activity
-            Intent intentAbout=new Intent(TransmitActivity.this,AboutActivity.class);
+            Intent intentAbout = new Intent(TransmitActivity.this, AboutActivity.class);
             startActivity(intentAbout);
             return true;
         }
@@ -92,18 +93,20 @@ public class TransmitActivity extends AppCompatActivity {
 
 
         Log.d("SendButton", "User clicked the button.");
-        EditText edit = (EditText)findViewById(R.id.user_message);
-        String userMessage = edit.getText().toString();
+        EditText edit = (EditText) findViewById(R.id.user_message);
+        userMessage = edit.getText().toString().toUpperCase();
+        BaudotCode bc = new BaudotCode();
+        bitStream = bc.getBitStream(userMessage);
         Log.d("User entered:", userMessage);
-        if(userMessage.isEmpty()) {
+        if (userMessage.isEmpty()) {
             Log.d("Transmitter", "User message is empty");
             showEmptyMessageAlert();
         } else {
-//            new Thread() {
-//                public void run() {
-//                    transmitData();
-//                }
-//            }.start();
+            new Thread() {
+                public void run() {
+                    transmitData();
+                }
+            }.start();
 
             new Thread(new Runnable() {
                 @Override
@@ -115,9 +118,9 @@ public class TransmitActivity extends AppCompatActivity {
     }
 
     private void showProgress() {
-        String bit = "10101";
-        int bitLength = bit.length();
-        while(progressStatus < 100) {
+
+        int bitLength = bitStream.length();
+        while (progressStatus < 100) {
             progressStatus += 1;
             handler.post(new Runnable() {
                 @Override
@@ -130,27 +133,21 @@ public class TransmitActivity extends AppCompatActivity {
                     }
                 }
             });
-            try{
+            try {
                 Thread.sleep(10 * bitLength);
-            }
-            catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
     private void transmitData() {
-        int frequency  = 1; // bps
-        int milliSecond = 1000 / frequency;
+        final int frequency = 1; // bps
+        final int milliSecond = 1000 / frequency;
         FlashLight led = new FlashLight();
-
-        HashMap<String, String> morseCode = new HashMap<>();
-        morseCode.put("A", ".-");
-        String code = morseCode.get("A");
-        String message = "10101";
         try {
-            for(char bit: message.toCharArray()) {
-                if(bit == '1') {
+            for (char bit : bitStream.toCharArray()) {
+                if (bit == '1') {
                     led.turnOn();
                 } else {
                     led.turnOff();
