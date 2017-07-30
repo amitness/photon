@@ -120,6 +120,7 @@ public class TransmitActivity extends AppCompatActivity {
     private void showProgress() {
 
         int bitLength = bitStream.length();
+        progressStatus = 0;
         while (progressStatus < 100) {
             progressStatus += 1;
             handler.post(new Runnable() {
