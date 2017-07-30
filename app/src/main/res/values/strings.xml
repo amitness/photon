@@ -6,8 +6,8 @@
     <string name="button_send">Transfer</string>
     <string name="button_start">Start</string>
     <string name="help">How to use</string>
-    <string name="about_app">Use Flashlight to transfer data.</string>
-    <string name="help_content" />
+    <string name="about_app">A LiFi prototype between two smartphones. Uses flashlight to transfer data and ambient light sensor to receive it.</string>
+    <string name="help_content">- Write message in textbox and click transfer.\n\n- On receiving side, click receive and it\'ll auto detect when transfer start and ends.\n\n- Your message will be displayed after transfer completes.</string>
     <string name="contact">Contact</string>
     <string name="contact_content">
     Create an issue for feature requests.\nhttps://github.com/amitness/minor-project
