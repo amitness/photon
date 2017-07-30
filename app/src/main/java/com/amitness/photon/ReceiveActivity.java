@@ -24,6 +24,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private float bgIntensity = -1;
     private ArrayList<Float> intensityValues = new ArrayList<>();
     private TreeMap<Long, Float> records;
+    private BaudotCode bc = new BaudotCode();
     private long startTime;
     private long lastTime;
     private String bit;
@@ -39,7 +40,6 @@ public class ReceiveActivity extends AppCompatActivity {
             @Override
             public void run() {
 //                mTextViewLightLabel.append(bit);
-                BaudotCode bc = new BaudotCode();
                 String message = bc.decode(payload);
                 mTextViewLightLabel.setText(message);
             }
@@ -107,8 +107,8 @@ public class ReceiveActivity extends AppCompatActivity {
 //                Log.d("Sensor Value", String.valueOf(lastLightIntensity));
 
 
-                String startBits = "10000";
-                String stopBits = "00000";
+                String startBits = bc.getStartBits();
+                String stopBits = bc.getStopBits();
 
 
                 if (rawReading.length() >= 5) {
