@@ -14,7 +14,7 @@ public class BaudotCode {
     private Map<Character, String> encodingMap = new HashMap<Character, String>();
     private Map<String, Character> decodingMap = new HashMap<String, Character>();
     private final int bitsPerLetter = 5;
-    private final String startBits = "11111";
+    private final String startBits = "10000";
     private final String stopBits = "00000";
 
     public BaudotCode() {

@@ -80,7 +80,7 @@ public class ReceiveActivity extends AppCompatActivity {
                     lastTime = System.currentTimeMillis();
                     started = true;
 //                    mTextViewLightLabel.setText("1");
-                    rawReading += "1";
+//                    rawReading += "1";
                 }
                 //long timestamp = event.timestamp;
                 if (currentLightIntensity > bgIntensity) {
@@ -89,6 +89,7 @@ public class ReceiveActivity extends AppCompatActivity {
                     bit = "0";
                 }
                 long currentTime = System.currentTimeMillis();
+
                 if ((currentTime - lastTime) > 999 && started) {
                     Log.d("1 second.", "passed.");
                     lastTime = currentTime;
@@ -106,7 +107,7 @@ public class ReceiveActivity extends AppCompatActivity {
 //                Log.d("Sensor Value", String.valueOf(lastLightIntensity));
 
 
-                String startBits = "11111";
+                String startBits = "10000";
                 String stopBits = "00000";
 
 
@@ -150,7 +151,7 @@ public class ReceiveActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mEventListenerLight, mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override
