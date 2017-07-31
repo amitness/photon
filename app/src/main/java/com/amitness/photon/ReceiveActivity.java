@@ -1,15 +1,17 @@
 package com.amitness.photon;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.amitness.photon.utils.BaudotCode;
+import com.amitness.photon.utils.Code;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -23,7 +25,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private float bgIntensity = -1;
     private ArrayList<Float> intensityValues = new ArrayList<>();
     private TreeMap<Long, Float> records;
-    private BaudotCode bc = new BaudotCode();
+    private Code bc = new Code();
     private long startTime;
     private long lastTime;
     private String bit;
@@ -40,7 +42,9 @@ public class ReceiveActivity extends AppCompatActivity {
             public void run() {
 //                mTextViewLightLabel.append(bit);
                 String message = bc.decode(payload);
-                mTextViewLightLabel.setText(message);
+                mTextViewLightLabel.setText("Received command.");
+                performAction(message);
+
             }
         });
     }
@@ -53,6 +57,7 @@ public class ReceiveActivity extends AppCompatActivity {
         records = new TreeMap<Long, Float>();
 
         mTextViewLightLabel = (TextView) findViewById(R.id.sensorValue);
+        mTextViewLightLabel.setText("Waiting for transfer.");
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 //        mTextViewLightLabel.setText("Receiving...");
 
@@ -110,8 +115,8 @@ public class ReceiveActivity extends AppCompatActivity {
                 String stopBits = bc.getStopBits();
 
 
-                if (rawReading.length() >= 5) {
-                    lastFiveBits = rawReading.substring(rawReading.length() - 5);
+                if (rawReading.length() >= 3) {
+                    lastFiveBits = rawReading.substring(rawReading.length() - 3);
                     if (!startBitDetected) {
                         if (lastFiveBits.equals(startBits)) {
                             System.out.println("Start bit detected.");
@@ -161,5 +166,36 @@ public class ReceiveActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(mEventListenerLight);
 //        updateUI();
         super.onStop();
+    }
+
+    private void performAction(String received) {
+        Intent intent = null;
+        switch (received) {
+            case "A":
+                Log.d("Got A.", received);
+                String url = "http://www.google.com";
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                break;
+
+            case "B":
+                intent = getAppIntent("com.kabouzeid.gramophone");
+                break;
+
+            case "C":
+                intent = getAppIntent("com.google.android.apps.inbox");
+                break;
+        }
+        if (intent != null) {
+            startActivity(intent);
+        }
+    }
+
+
+    private Intent getAppIntent(String packageName) {
+        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+        return launchIntent;
+//        if (launchIntent != null) {
+//            startActivity(launchIntent);//null pointer check in case package name was not found
+//        }
     }
 }

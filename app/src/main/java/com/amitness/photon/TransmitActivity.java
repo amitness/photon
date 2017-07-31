@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.amitness.photon.utils.BaudotCode;
+import com.amitness.photon.utils.Code;
 import com.amitness.photon.utils.FlashLight;
 
 import static java.lang.Thread.sleep;
@@ -95,8 +95,8 @@ public class TransmitActivity extends AppCompatActivity {
         Log.d("SendButton", "User clicked the button.");
         EditText edit = (EditText) findViewById(R.id.user_message);
         userMessage = edit.getText().toString().toUpperCase();
-        BaudotCode bc = new BaudotCode();
-        bitStream = bc.getBitStream(userMessage);
+        Code code = new Code();
+        bitStream = code.getBitStream(userMessage);
         Log.d("User entered:", userMessage);
         if (userMessage.isEmpty()) {
             Log.d("Transmitter", "User message is empty");

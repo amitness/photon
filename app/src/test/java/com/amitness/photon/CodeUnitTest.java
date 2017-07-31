@@ -1,18 +1,18 @@
 package com.amitness.photon;
 
-import com.amitness.photon.utils.BaudotCode;
+import com.amitness.photon.utils.Code;
 
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 
-public class BaudotCodeUnitTest {
+public class CodeUnitTest {
 
     @Test
     public void testDecode() throws Exception {
-        BaudotCode bc = new BaudotCode();
+        Code code = new Code();
         String expected = "A";
-        String got = bc.decode("00011");
+        String got = code.decode("001");
         assertEquals(expected, got);
     }
 }
