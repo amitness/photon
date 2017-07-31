@@ -7,7 +7,6 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.amitness.photon.utils.BaudotCode;
@@ -162,9 +161,5 @@ public class ReceiveActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(mEventListenerLight);
 //        updateUI();
         super.onStop();
-    }
-
-    public void notifyStart(View v) {
-        Log.d("startReceive", "Receive Started");
     }
 }
