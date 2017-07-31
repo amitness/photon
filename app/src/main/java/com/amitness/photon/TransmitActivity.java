@@ -143,7 +143,7 @@ public class TransmitActivity extends AppCompatActivity {
     }
 
     private void transmitData() {
-        final int frequency = 1; // bps
+        final int frequency = 2; // bps
         final int milliSecond = 1000 / frequency;
         FlashLight led = new FlashLight();
         try {

@@ -35,6 +35,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private String payload = "";
     private boolean startBitDetected = false;
     private boolean isTransferring = true;
+    public boolean commandReceived = false;
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
@@ -42,9 +43,13 @@ public class ReceiveActivity extends AppCompatActivity {
             public void run() {
 //                mTextViewLightLabel.append(bit);
                 String message = bc.decode(payload);
-                mTextViewLightLabel.setText("Received command.");
-                performAction(message);
-
+                if (message != null && !commandReceived) {
+                    mTextViewLightLabel.setText("Received command." + message);
+                    commandReceived = true;
+                    performAction(message);
+                } else {
+                    mTextViewLightLabel.setText("Command was not found.");
+                }
             }
         });
     }
@@ -94,7 +99,7 @@ public class ReceiveActivity extends AppCompatActivity {
                 }
                 long currentTime = System.currentTimeMillis();
 
-                if ((currentTime - lastTime) > 999 && started) {
+                if ((currentTime - lastTime) > 499 && started) {
                     Log.d("1 second.", "passed.");
                     lastTime = currentTime;
                     records.put(currentTime - startTime, currentLightIntensity);
@@ -129,13 +134,19 @@ public class ReceiveActivity extends AppCompatActivity {
 
                         if (!lastFiveBits.equals(stopBits)) {
                             payload += lastFiveBits;
-                        } else {
                             System.out.println("Stop bit detected.");
                             isTransferring = false;
 //                            mSensorManager.unregisterListener(mEventListenerLight);
 //                            updateUI();
                             mSensorManager.unregisterListener(mEventListenerLight);
                             updateUI();
+                        } else {
+//                            System.out.println("Stop bit detected.");
+//                            isTransferring = false;
+////                            mSensorManager.unregisterListener(mEventListenerLight);
+////                            updateUI();
+//                            mSensorManager.unregisterListener(mEventListenerLight);
+//                            updateUI();
                         }
                     }
                     rawReading = "";
@@ -182,7 +193,17 @@ public class ReceiveActivity extends AppCompatActivity {
                 break;
 
             case "C":
+                intent = getAppIntent("com.google.android.GoogleCamera");
+                break;
+
+            case "D": intent = getAppIntent("com.android.dialer");
+                break;
+            case "E":
                 intent = getAppIntent("com.google.android.apps.inbox");
+                break;
+            case "F": intent = getAppIntent("com.android.settings");
+                break;
+            case "G":
                 break;
         }
         if (intent != null) {

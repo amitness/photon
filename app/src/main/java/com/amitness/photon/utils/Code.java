@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Amit on 7/24/17.
- */
 
 public class Code {
 
@@ -92,6 +89,7 @@ public class Code {
     }
 
     public String getBitStream(String message) {
-        return startBits + encode(message) + stopBits;
+//        return startBits + encode(message) + stopBits;
+        return startBits + encode(message);
     }
 }
