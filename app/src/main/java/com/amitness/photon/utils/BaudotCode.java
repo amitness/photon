@@ -49,7 +49,7 @@ public class BaudotCode {
         encodingMap.put('T', "10000");
         encodingMap.put('U', "00111");
         encodingMap.put('V', "11110");
-        encodingMap.put('W', "10111");
+        encodingMap.put('W', "10011");
         encodingMap.put('X', "11101");
         encodingMap.put('Y', "10101");
         encodingMap.put('Z', "10001");
