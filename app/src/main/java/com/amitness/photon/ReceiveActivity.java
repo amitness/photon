@@ -204,9 +204,11 @@ public class ReceiveActivity extends AppCompatActivity {
                 intent = getAppIntent("com.google.android.apps.inbox");
                 break;
             case "F":
-                intent = getAppIntent("com.android.settings");
+                intent = getAppIntent("com.android.messaging");
                 break;
             case "G":
+                intent = getAppIntent("com.android.settings");
+
                 break;
         }
         if (intent != null) {

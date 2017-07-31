@@ -19,7 +19,8 @@
         <item>Browse Internet</item>
         <item>Open Camera</item>
         <item>Call someone</item>
-        <item>Email</item>
+        <item>Send Email</item>
+        <item>Send SMS</item>
         <item>Change device settings</item>
     </string-array>
 </resources>

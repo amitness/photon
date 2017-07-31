@@ -148,7 +148,7 @@ public class TransmitActivity extends AppCompatActivity implements AdapterView.O
                 }
             });
             try {
-                Thread.sleep(10 * bitLength);
+                Thread.sleep(5 * bitLength);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
