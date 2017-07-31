@@ -177,8 +177,6 @@ public class TransmitActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        String sSelected = parent.getItemAtPosition(position).toString();
-//        Toast.makeText(this,sSelected,Toast.LENGTH_SHORT).show();
         String[] codes = {"A", "B", "C", "D", "E", "F", "G"};
         Log.d("nice", String.valueOf(position));
         userMessage = codes[position];
