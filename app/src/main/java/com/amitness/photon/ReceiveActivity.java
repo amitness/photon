@@ -18,6 +18,7 @@ import java.util.TreeMap;
 
 public class ReceiveActivity extends AppCompatActivity {
 
+    public boolean commandReceived = false;
     private TextView mTextViewLightLabel;
     private SensorManager mSensorManager;
     private SensorEventListener mEventListenerLight;
@@ -35,7 +36,6 @@ public class ReceiveActivity extends AppCompatActivity {
     private String payload = "";
     private boolean startBitDetected = false;
     private boolean isTransferring = true;
-    public boolean commandReceived = false;
 
     private void updateUI() {
         runOnUiThread(new Runnable() {
@@ -44,7 +44,8 @@ public class ReceiveActivity extends AppCompatActivity {
 //                mTextViewLightLabel.append(bit);
                 String message = bc.decode(payload);
                 if (message != null && !commandReceived) {
-                    mTextViewLightLabel.setText("Received command." + message);
+                    mTextViewLightLabel.setText("Received command.");
+                    Log.d("Received:", message);
                     commandReceived = true;
                     performAction(message);
                 } else {
@@ -62,7 +63,7 @@ public class ReceiveActivity extends AppCompatActivity {
         records = new TreeMap<Long, Float>();
 
         mTextViewLightLabel = (TextView) findViewById(R.id.sensorValue);
-        mTextViewLightLabel.setText("Waiting for transfer.");
+        mTextViewLightLabel.setText("Waiting for transfer...");
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 //        mTextViewLightLabel.setText("Receiving...");
 
@@ -183,25 +184,27 @@ public class ReceiveActivity extends AppCompatActivity {
         Intent intent = null;
         switch (received) {
             case "A":
-                Log.d("Got A.", received);
-                String url = "http://www.google.com";
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                intent = getAppIntent("com.kabouzeid.gramophone");
                 break;
 
             case "B":
-                intent = getAppIntent("com.kabouzeid.gramophone");
+                Log.d("Got A.", received);
+                String url = "http://www.google.com";
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 break;
 
             case "C":
                 intent = getAppIntent("com.google.android.GoogleCamera");
                 break;
 
-            case "D": intent = getAppIntent("com.android.dialer");
+            case "D":
+                intent = getAppIntent("com.android.dialer");
                 break;
             case "E":
                 intent = getAppIntent("com.google.android.apps.inbox");
                 break;
-            case "F": intent = getAppIntent("com.android.settings");
+            case "F":
+                intent = getAppIntent("com.android.settings");
                 break;
             case "G":
                 break;

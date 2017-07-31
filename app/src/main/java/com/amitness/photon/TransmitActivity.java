@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amitness.photon.utils.Code;
@@ -20,7 +22,7 @@ import com.amitness.photon.utils.FlashLight;
 
 import static java.lang.Thread.sleep;
 
-public class TransmitActivity extends AppCompatActivity {
+public class TransmitActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private ProgressBar progressBar;
     private TextView textView;
     private int progressStatus = 0;
@@ -32,6 +34,16 @@ public class TransmitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transmit);
+
+
+        // Code for spinner
+        Spinner mySpinner = (Spinner) findViewById(R.id.myspinner);
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(TransmitActivity.this, android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.menu_items));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(myAdapter);
+        mySpinner.setOnItemSelectedListener(this);
+        //Code for drop down ends, onSelect methods at buttom
 
         // TODO: Create an alert if flashlight is not present in device
         // TODO: Exit the app if no flashlight
@@ -57,8 +69,8 @@ public class TransmitActivity extends AppCompatActivity {
 
     private void showEmptyMessageAlert() {
         new AlertDialog.Builder(this)
-                .setTitle("Empty Message!")
-                .setMessage("Enter some text.")
+                .setTitle("No command selected!")
+                .setMessage("Choose a command.")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -93,13 +105,14 @@ public class TransmitActivity extends AppCompatActivity {
 
 
         Log.d("SendButton", "User clicked the button.");
-        EditText edit = (EditText) findViewById(R.id.user_message);
-        userMessage = edit.getText().toString().toUpperCase();
+//        EditText edit = (EditText) findViewById(R.id.user_message);
+//        userMessage = edit.getText().toString().toUpperCase();
+//        userMessage = "a";
         Code code = new Code();
         bitStream = code.getBitStream(userMessage);
         Log.d("User entered:", userMessage);
         if (userMessage.isEmpty()) {
-            Log.d("Transmitter", "User message is empty");
+            Log.d("Transmitter", "No command selected.");
             showEmptyMessageAlert();
         } else {
             new Thread() {
@@ -160,5 +173,20 @@ public class TransmitActivity extends AppCompatActivity {
             String TAG = "Flash";
             Log.w(TAG, "InterruptedException");
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//        String sSelected = parent.getItemAtPosition(position).toString();
+//        Toast.makeText(this,sSelected,Toast.LENGTH_SHORT).show();
+        String[] codes = {"A", "B", "C", "D", "E", "F", "G"};
+        Log.d("nice", String.valueOf(position));
+        userMessage = codes[position];
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        userMessage = "";
+
     }
 }
