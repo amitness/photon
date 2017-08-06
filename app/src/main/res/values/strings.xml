@@ -6,11 +6,11 @@
     <string name="button_send">Transfer</string>
     <string name="button_start">Start</string>
     <string name="help">How to use</string>
-    <string name="about_app">A LiFi prototype between two smartphones. Uses flashlight to transfer data and ambient light sensor to receive it.</string>
-    <string name="help_content">- Write message in textbox and click transfer.\n\n- On receiving side, click receive and it\'ll auto detect when transfer start and ends.\n\n- Your message will be displayed after transfer completes.</string>
+    <string name="about_app">Wireless communication between smartphones using light.\n\nUses LED flashlight as transmitter and ambient light sensor as receiver.</string>
+    <string name="help_content">- Choose a command and click transfer.\n\n- On receiving side, click receive and it\'ll auto detect when transfer starts and ends.\n\n- Command will be executed after transfer is completed.</string>
     <string name="contact">Contact</string>
     <string name="contact_content">
-    Create an issue for feature requests.\nhttps://github.com/amitness/minor-project
+    Create an issue for feature requests.\nhttps://github.com/amitness/photon
     </string>
     <string name="enter_text">Message</string>
     <string name="splash_description">Splash Screen</string>
