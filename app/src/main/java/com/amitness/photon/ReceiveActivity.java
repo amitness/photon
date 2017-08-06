@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -184,11 +185,15 @@ public class ReceiveActivity extends AppCompatActivity {
         Intent intent = null;
         switch (received) {
             case "A":
-                intent = getAppIntent("com.kabouzeid.gramophone");
+                Log.d("Got A.", received);
+//                intent = getAppIntent("com.kabouzeid.gramophone");
+                String fileLocation = "file:///" + Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/Music/joel.mp3";
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(fileLocation), "audio/*");
+//                startActivity(intent);
                 break;
 
             case "B":
-                Log.d("Got A.", received);
                 String url = "http://www.google.com";
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 break;
