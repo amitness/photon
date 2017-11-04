@@ -48,3 +48,7 @@ Code base for our minor project.
 
 ### Authors
 - [Amit Chaudhary](https://github.com/studenton) | [Ashish Ghimire](https://github.com/deashish) | [Ashwin Neupane](https://github.com/ashwin101) | [Kiran Koirala](https://github.com/koiralakiran1)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
