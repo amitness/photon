@@ -36,7 +36,7 @@ Code base for our minor project.
 ### Development
 - Clone the repo
   ```
-  git clone https://github.com/amitness/minor-project
+  git clone https://github.com/amitness/photon
   ```
 - In Android studio, select `Open Existing Project` and point to the location where you cloned the repo.
 
