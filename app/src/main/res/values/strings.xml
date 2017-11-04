@@ -5,4 +5,22 @@
     <string name="button_transmit">Transmit</string>
     <string name="button_send">Transfer</string>
     <string name="button_start">Start</string>
+    <string name="help">How to use</string>
+    <string name="about_app">Wireless communication between smartphones using light.\n\nUses LED flashlight as transmitter and ambient light sensor as receiver.</string>
+    <string name="help_content">- Choose a command and click transfer.\n\n- On receiving side, click receive and it\'ll auto detect when transfer starts and ends.\n\n- Command will be executed after transfer is completed.</string>
+    <string name="contact">Contact</string>
+    <string name="contact_content">
+    Create an issue for feature requests.\nhttps://github.com/amitness/photon
+    </string>
+    <string name="enter_text">Message</string>
+    <string name="splash_description">Splash Screen</string>
+    <string-array name="menu_items">
+        <item>Play Music</item>
+        <item>Browse Internet</item>
+        <item>Open Camera</item>
+        <item>Call someone</item>
+        <item>Send Email</item>
+        <item>Send SMS</item>
+        <item>Change device settings</item>
+    </string-array>
 </resources>

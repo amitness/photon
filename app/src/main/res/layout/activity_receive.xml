@@ -24,14 +24,6 @@
             tools:layout_editor_absoluteX="72dp"
             tools:layout_editor_absoluteY="147dp" />
 
-        <Button
-            android:id="@+id/buttonStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:onClick="notifyStart"
-            android:text="@string/button_start" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

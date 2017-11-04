@@ -1,4 +1,6 @@
-# Minor Project [![Build Status](https://travis-ci.org/amitness/minor-project.svg?branch=master)](https://travis-ci.org/amitness/minor-project)
+# Photon [![Build Status](https://travis-ci.org/amitness/photon.svg?branch=master)](https://travis-ci.org/amitness/photon)
+
+![Imgur](http://i.imgur.com/6W9Fftu.png)
 
 Code base for our minor project.
 
@@ -42,7 +44,7 @@ Code base for our minor project.
 
 ### Testing
 - Builds are automatically tested through continuous integration using Travis. 
-- Automated tests such as unit tests and instrumentation tests are run on each build.
+- Unit tests and instrumentation tests are automatically run on each build.
 
 ### Authors
 - [Amit Chaudhary](https://github.com/studenton) | [Ashish Ghimire](https://github.com/deashish) | [Ashwin Neupane](https://github.com/ashwin101) | [Kiran Koirala](https://github.com/koiralakiran1)
