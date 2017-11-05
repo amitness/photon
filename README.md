@@ -2,7 +2,7 @@
 
 ![Imgur](http://i.imgur.com/6W9Fftu.png)
 
-Code base for our minor project.
+Wireless connection between smartphones using light.
 
 ## Local Development
 ### Installation
